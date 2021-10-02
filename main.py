@@ -15,40 +15,36 @@ def prepareImg(img_path):
 def mergeImg(imgs_list):
     merged_png = None
     png_name = datetime.strftime( datetime.today(), '%m%d%Y%H%M%S%f' )
-    for i in range(1, len(imgs_list)):
+    counter = 4
+    while counter >= 0:
         if merged_png:
-            merged_png.paste(imgs_list[i], (0,0), imgs_list[i])
+            merged_png.paste(imgs_list[counter], (0,0), imgs_list[counter])
             path_to_merged_png = os.path.join( 'mergedPngs', f'{png_name}.png' )
             os.remove(path_to_merged_png)
             merged_png.save(path_to_merged_png)
             merged_png = prepareImg(path_to_merged_png)
         else:
-            imgs_list[0].paste(imgs_list[i], (0,0), imgs_list[i])
+            imgs_list[counter].paste(imgs_list[counter], (0,0), imgs_list[counter])
             path_to_merged_png = os.path.join( 'mergedPngs', f'{png_name}.png' )
-            imgs_list[0].save(path_to_merged_png)
+            imgs_list[counter].save(path_to_merged_png)
             merged_png = prepareImg(path_to_merged_png)
-
+        counter -= 1
 
 def get_imgs():
-    random_img_paths = []
-    img_paths = [  os.path.join(os.getcwd(), folder, path)
-        for folder in [ os.path.join( os.getcwd(), item ) for item in os.listdir() if 'png_path' in item ] 
-        for path in os.listdir(folder)
-    ]
-    if settings.count_photos_to_merge > len(img_paths):
-        print(f'Count o images to merge in setting( {settings.count_photos_to_merge} ) more that count of images in folders( {len(img_paths)} )')
-        return None
-    elif settings.count_photos_to_merge == len(img_paths):
-        return img_paths
-    else:
-        for _ in range(settings.count_photos_to_merge):
-            rnd_img_ph = random.choice( img_paths )
-            random_img_paths.append( rnd_img_ph )
-            img_paths.remove(rnd_img_ph)
-        return random_img_paths
+    try:
+        img1 = os.path.join( os.getcwd(), 'png_path_1', random.choice( os.listdir( os.path.join( os.getcwd(), 'png_path_1' ) ) ) )
+        img2 = os.path.join( os.getcwd(), 'png_path_2', random.choice( os.listdir( os.path.join( os.getcwd(), 'png_path_2' ) ) ) )
+        img3 = os.path.join( os.getcwd(), 'png_path_3', random.choice( os.listdir( os.path.join( os.getcwd(), 'png_path_3' ) ) ) )
+        img4 = os.path.join( os.getcwd(), 'png_path_4', random.choice( os.listdir( os.path.join( os.getcwd(), 'png_path_4' ) ) ) )
+        img5 = os.path.join( os.getcwd(), 'png_path_5', random.choice( os.listdir( os.path.join( os.getcwd(), 'png_path_5' ) ) ) )
+        return [img1, img2, img3, img4, img5]
+    except Exception as err:
+        print(f'Some error with getting photos\nErr message: {err}')
+        
+    
 
 def main():
-    print(f'Start work.\nCount of imgs to merge: {settings.count_photos_to_merge}\nCount of finished imgs: {settings.count_of_works}')
+    print(f'Start work.\nCount of finished imgs: {settings.count_of_works}')
     for _ in range(settings.count_of_works):
         imgs = []
         img_paths = get_imgs()

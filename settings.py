@@ -1,6 +1,4 @@
-width = 128
-height = 128
+width = 128 * 2
+height = 128 * 2
 
-count_photos_to_merge = 3
-
-count_of_works = 2
+count_of_works = 1
