@@ -16,7 +16,6 @@ def mergeImg(imgs_list):
     merged_png = None
     png_name = datetime.strftime( datetime.today(), '%m%d%Y%H%M%S%f' )
     for i in range(1, len(imgs_list)):
-        print(i)
         if merged_png:
             merged_png.paste(imgs_list[i], (0,0), imgs_list[i])
             path_to_merged_png = os.path.join( 'mergedPngs', f'{png_name}.png' )
